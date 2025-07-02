@@ -1,9 +1,6 @@
 import { Payable } from './payable.aggregate';
+import { RepositoryWithEvents } from '../../common/domain/base-repository.interface';
 
-export interface PayableRepository {
-  findById(id: string): Promise<Payable | null>;
+export interface PayableRepository extends RepositoryWithEvents<Payable> {
   findAll(): Promise<Payable[]>;
-  create(payable: Payable): Promise<Payable>;
-  update(payable: Payable): Promise<Payable>;
-  delete(id: string): Promise<void>;
 }

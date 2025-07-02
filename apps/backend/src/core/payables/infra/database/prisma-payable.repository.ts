@@ -3,7 +3,9 @@ import {
   Payable as PrismaPayable,
 } from '../../../../../generated/prisma';
 import { Payable } from '../../domain/payable.aggregate';
-import { PayableRepository } from '../../../payables/domain/payable.repository';
+import { PayableRepository } from '../../domain/payable.repository';
+import { BaseRepositoryImpl } from '../../../common/infra/database/base-repository.impl';
+import { DomainEvent } from '../../../common/domain/domain-event';
 
 const prisma = new PrismaClient();
 
@@ -13,45 +15,63 @@ function toDomain(payable: PrismaPayable): Payable {
     value: payable.value,
     emissionDate: payable.emissionDate,
     assignorId: payable.assignorId,
+    isActive: true,
+    createdAt: new Date(payable.createdAt),
+    updatedAt: new Date(payable.updatedAt),
   });
 }
 
-export class PrismaPayableRepository implements PayableRepository {
-  async findById(id: string): Promise<Payable | null> {
-    const data = await prisma.payable.findUnique({ where: { id } });
+export class PrismaPayableRepository
+  extends BaseRepositoryImpl<Payable>
+  implements PayableRepository
+{
+  async findAll(): Promise<Payable[]> {
+    const list = await prisma.payable.findMany({
+      where: { isActive: true },
+    });
+    return list.map(toDomain);
+  }
+
+  protected async saveToDatabase(payable: Payable): Promise<Payable> {
+    const data = await prisma.payable.upsert({
+      where: { id: payable.id },
+      update: {
+        value: payable.value,
+        emissionDate: payable.emissionDate,
+        assignorId: payable.assignorId,
+        isActive: payable.isActive,
+      },
+      create: {
+        id: payable.id,
+        value: payable.value,
+        emissionDate: payable.emissionDate,
+        assignorId: payable.assignorId,
+        isActive: payable.isActive,
+      },
+    });
+    return toDomain(data);
+  }
+
+  protected async findByIdFromDatabase(id: string): Promise<Payable | null> {
+    const data = await prisma.payable.findFirst({
+      where: { id, isActive: true },
+    });
     if (!data) return null;
     return toDomain(data);
   }
 
-  async findAll(): Promise<Payable[]> {
-    const list = await prisma.payable.findMany();
-    return list.map(toDomain);
-  }
-
-  async create(payable: Payable): Promise<Payable> {
-    const data = await prisma.payable.create({
-      data: {
-        value: payable.value,
-        emissionDate: payable.emissionDate,
-        assignorId: payable.assignorId,
-      },
+  protected async deleteFromDatabase(id: string): Promise<void> {
+    await prisma.payable.update({
+      where: { id },
+      data: { isActive: false },
     });
-    return toDomain(data);
   }
 
-  async update(payable: Payable): Promise<Payable> {
-    const data = await prisma.payable.update({
-      where: { id: payable.id },
-      data: {
-        value: payable.value,
-        emissionDate: payable.emissionDate,
-        assignorId: payable.assignorId,
-      },
-    });
-    return toDomain(data);
+  protected getDomainEvents(payable: Payable): DomainEvent[] {
+    return payable.getDomainEvents();
   }
 
-  async delete(id: string): Promise<void> {
-    await prisma.payable.delete({ where: { id } });
+  protected clearDomainEvents(payable: Payable): void {
+    payable.clearDomainEvents();
   }
 }

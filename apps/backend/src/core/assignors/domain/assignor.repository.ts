@@ -1,9 +1,8 @@
 import { Assignor } from './assignor.aggregate';
+import { RepositoryWithEvents } from '../../common/domain/base-repository.interface';
 
-export interface AssignorRepository {
-  findById(id: string): Promise<Assignor | null>;
+export interface AssignorRepository extends RepositoryWithEvents<Assignor> {
   findAll(): Promise<Assignor[]>;
-  create(assignor: Assignor): Promise<Assignor>;
-  update(assignor: Assignor): Promise<Assignor>;
-  delete(id: string): Promise<void>;
+  findByEmail(email: string): Promise<Assignor | null>;
+  findByDocument(document: string): Promise<Assignor | null>;
 }
