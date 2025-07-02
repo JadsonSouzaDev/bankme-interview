@@ -76,7 +76,7 @@ describe('CreateAssignorCommand', () => {
         BadRequestException,
       );
       await expect(command.execute(validInput)).rejects.toThrow(
-        'Email já está em uso',
+        'Email already in use',
       );
 
       expect(mockAssignorRepository.findByEmail).toHaveBeenCalledWith(
@@ -98,7 +98,7 @@ describe('CreateAssignorCommand', () => {
         BadRequestException,
       );
       await expect(command.execute(validInput)).rejects.toThrow(
-        'Documento já está em uso',
+        'Document already in use',
       );
 
       expect(mockAssignorRepository.findByEmail).toHaveBeenCalledWith(

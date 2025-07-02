@@ -26,13 +26,13 @@ export class CreateAssignorCommand
         dto.email,
       );
       if (existingAssignorByEmail) {
-        throw new BadRequestException('Email já está em uso');
+        throw new BadRequestException('Email already in use');
       }
 
       const existingAssignorByDocument =
         await this.assignorRepository.findByDocument(dto.document);
       if (existingAssignorByDocument) {
-        throw new BadRequestException('Documento já está em uso');
+        throw new BadRequestException('Document already in use');
       }
 
       const assignor = Assignor.create({
