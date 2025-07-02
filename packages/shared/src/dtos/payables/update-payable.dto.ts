@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsUUID, IsNumber, IsDateString, Min, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsUUID, IsNumber, Min, IsOptional, IsDate } from 'class-validator';
 
 export class UpdatePayableDto {
   @IsNotEmpty({ message: 'O valor é obrigatório.' })
@@ -8,9 +8,9 @@ export class UpdatePayableDto {
   value?: number;
 
   @IsNotEmpty({ message: 'A data de emissão é obrigatória.' })
-  @IsDateString({}, { message: 'A data de emissão deve ser uma data válida.' })
+  @IsDate({ message: 'A data de emissão deve ser uma data válida.' })
   @IsOptional()
-  emissionDate?: string;
+  emissionDate?: Date;
 
   @IsNotEmpty({ message: 'O assignor é obrigatório.' })
   @IsUUID('4', { message: 'O assignor deve ser um UUID válido.' })
