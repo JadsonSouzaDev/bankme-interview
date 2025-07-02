@@ -22,5 +22,9 @@
   "packageManager": "npm@10.2.4",
   "engines": {
     "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^6.0.0"
   }
-} 
+}
