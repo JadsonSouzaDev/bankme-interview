@@ -9,12 +9,15 @@ datasource db {
 }
 
 model Assignor {
-  id       String   @id @default(uuid())
-  document String   @unique
-  email    String
-  phone    String
-  name     String
-  payables Payable[]
+  id        String   @id @default(uuid())
+  document  String   
+  email     String
+  phone     String
+  name      String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  payables  Payable[]
 }
 
 model Payable {
@@ -22,5 +25,8 @@ model Payable {
   value        Float
   emissionDate DateTime
   assignorId   String
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   assignor     Assignor @relation(fields: [assignorId], references: [id])
 }
