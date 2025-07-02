@@ -10,7 +10,7 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
-import { CreatePayableDto, UpdatePayableDto } from '@bankme/shared';
+import { CreatePayableDto, PayableDto, UpdatePayableDto } from '@bankme/shared';
 
 import { CreatePayableCommand } from '../../../core/payables/application/commands/create-payable/create-payable.command';
 import { GetPayableQuery } from '../../../core/payables/application/queries/get-payable/get-payable.query';
@@ -46,31 +46,37 @@ export class PayablesIntegrationController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async createPayable(@Body() dto: CreatePayableDto) {
-    return this.createPayableCommand.execute(dto);
+  async createPayable(@Body() dto: CreatePayableDto): Promise<PayableDto> {
+    return await this.createPayableCommand.execute(dto);
   }
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  async getAllPayables() {
-    return this.getAllPayablesQuery.execute();
+  async getAllPayables(): Promise<{
+    payables: PayableDto[];
+    total: number;
+  }> {
+    return await this.getAllPayablesQuery.execute();
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async getPayable(@Param('id') id: string) {
-    return this.getPayableQuery.execute({ id });
+  async getPayable(@Param('id') id: string): Promise<PayableDto> {
+    return await this.getPayableQuery.execute({ id });
   }
 
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
-  async updatePayable(@Param('id') id: string, @Body() dto: UpdatePayableDto) {
-    return this.updatePayableCommand.execute({ id, ...dto });
+  async updatePayable(
+    @Param('id') id: string,
+    @Body() dto: UpdatePayableDto,
+  ): Promise<PayableDto> {
+    return await this.updatePayableCommand.execute({ id, ...dto });
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deletePayable(@Param('id') id: string) {
+  async deletePayable(@Param('id') id: string): Promise<void> {
     await this.deletePayableCommand.execute({ id });
   }
 }
