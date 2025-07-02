@@ -6,7 +6,7 @@ import {
 import { AssignorCreatedEvent, AssignorUpdatedEvent } from './events';
 
 type AssignorConstructor = {
-  id: string;
+  id?: string;
   name: string;
   email: string;
   document: string;
@@ -22,17 +22,16 @@ export class Assignor extends BaseAggregate<AssignorDto> {
 
   constructor(props: AssignorConstructor) {
     super(props);
-    this.id = props.id;
+    this.id = props.id || crypto.randomUUID();
     this.name = props.name;
     this.email = props.email;
     this.document = props.document;
     this.phone = props.phone;
   }
 
-  public static create(props: Omit<AssignorConstructor, 'id'>): Assignor {
+  public static create(props: AssignorConstructor): Assignor {
     const assignor = new Assignor({
       ...props,
-      id: crypto.randomUUID(),
     });
 
     assignor.addDomainEvent(

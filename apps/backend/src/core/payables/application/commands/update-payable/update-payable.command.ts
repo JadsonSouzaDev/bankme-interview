@@ -1,19 +1,19 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { Payable } from '../../../domain/payable.aggregate';
 import { PayableRepository } from '../../../domain/payable.repository';
 import { ApplicationService } from '../../../../common/application/application-service.interface';
 import { AssignorRepository } from '../../../../assignors/domain/assignor.repository';
 import { BaseCommand } from '../../../../../core/common/application/commands/base-command.interface';
+import { PayableDto } from '@bankme/shared';
 
 export interface UpdatePayableCommandInput {
   id: string;
   value?: number;
-  emissionDate?: string;
+  emissionDate?: Date;
   assignor?: string;
 }
 
 export class UpdatePayableCommand
-  implements BaseCommand<UpdatePayableCommandInput, Payable>
+  implements BaseCommand<UpdatePayableCommandInput, PayableDto>
 {
   constructor(
     private readonly payableRepository: PayableRepository,
@@ -21,7 +21,7 @@ export class UpdatePayableCommand
     private readonly applicationService: ApplicationService,
   ) {}
 
-  async execute(input: UpdatePayableCommandInput): Promise<Payable> {
+  async execute(input: UpdatePayableCommandInput): Promise<PayableDto> {
     return this.applicationService.execute(async () => {
       const payable = await this.payableRepository.findById(input.id);
       if (!payable) {
@@ -52,7 +52,8 @@ export class UpdatePayableCommand
 
       payable.updateMultipleFields(updates);
 
-      return this.payableRepository.save(payable);
+      const savedPayable = await this.payableRepository.save(payable);
+      return savedPayable.toDto();
     });
   }
 }

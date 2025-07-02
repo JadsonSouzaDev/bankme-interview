@@ -28,7 +28,7 @@ export class UpdateAssignorCommand
       const assignor = await this.assignorRepository.findById(id);
 
       if (!assignor) {
-        throw new NotFoundException('Assignor não encontrado');
+        throw new NotFoundException('Assignor not found');
       }
 
       // Verificar duplicatas apenas se os campos foram alterados
@@ -36,7 +36,7 @@ export class UpdateAssignorCommand
         const existingAssignorByEmail =
           await this.assignorRepository.findByEmail(updateData.email);
         if (existingAssignorByEmail && existingAssignorByEmail.id !== id) {
-          throw new BadRequestException('Email já está em uso');
+          throw new BadRequestException('Email already exists');
         }
       }
 
@@ -47,7 +47,7 @@ export class UpdateAssignorCommand
           existingAssignorByDocument &&
           existingAssignorByDocument.id !== id
         ) {
-          throw new BadRequestException('Documento já está em uso');
+          throw new BadRequestException('Document already exists');
         }
       }
 

@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { PayableRepository } from '../../../domain/payable.repository';
 import { ApplicationService } from '../../../../common/application/application-service.interface';
 import { BaseCommand } from '../../../../../core/common/application/commands/base-command.interface';
@@ -30,12 +30,12 @@ export class DeletePayableCommand
       const payable = await this.payableRepository.findById(id);
 
       if (!payable) {
-        throw new BadRequestException('Payable não encontrado');
+        throw new NotFoundException('Payable not found');
       }
 
       // Verificar se o payable já está inativo
       if (!payable.isActive) {
-        throw new BadRequestException('Payable já foi deletado');
+        throw new BadRequestException('Payable already deleted');
       }
 
       // Desativar o payable (soft delete)
@@ -46,7 +46,7 @@ export class DeletePayableCommand
 
       return {
         success: true,
-        message: 'Payable deletado com sucesso',
+        message: 'Payable deleted successfully',
       };
     });
   }

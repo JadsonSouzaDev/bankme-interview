@@ -1,13 +1,13 @@
 import { PayableRepository } from '../../../domain/payable.repository';
 import { ApplicationService } from '../../../../common/application/application-service.interface';
 import { BaseQuery } from '../../../../../core/common/application/queries/base-query.interface';
-import { Payable } from '../../../domain/payable.aggregate';
+import { PayableDto } from '@bankme/shared';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface GetAllPayablesQueryInput {}
 
 export interface GetAllPayablesQueryOutput {
-  payables: Payable[];
+  payables: PayableDto[];
   total: number;
 }
 
@@ -24,7 +24,7 @@ export class GetAllPayablesQuery
       const payables = await this.payableRepository.findAll();
 
       return {
-        payables,
+        payables: payables.map((payable) => payable.toDto()),
         total: payables.length,
       };
     });

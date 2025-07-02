@@ -20,7 +20,7 @@ export class GetAssignorQuery
     return this.applicationService.execute(async () => {
       const assignor = await this.assignorRepository.findById(input.id);
       if (!assignor) {
-        throw new NotFoundException('Assignor não encontrado');
+        throw new NotFoundException('Assignor not found');
       }
 
       return assignor.toDto();

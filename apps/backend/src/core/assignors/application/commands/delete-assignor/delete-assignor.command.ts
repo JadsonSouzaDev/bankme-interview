@@ -31,7 +31,7 @@ export class DeleteAssignorCommand
       const assignor = await this.assignorRepository.findById(id);
 
       if (!assignor) {
-        throw new NotFoundException('Assignor não encontrado');
+        throw new NotFoundException('Assignor not found');
       }
 
       // Verificar se o assignor já está inativo
