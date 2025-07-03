@@ -8,8 +8,7 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
-    "lint": "eslint src/**/*.ts",
-    "test": "jest"
+    "lint": "eslint src/**/*.ts"
   },
   "dependencies": {
     "class-validator": "^0.14.0",

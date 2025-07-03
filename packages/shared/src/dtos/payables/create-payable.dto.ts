@@ -7,16 +7,16 @@ import {
 } from "class-validator";
 
 export class CreatePayableDto {
-  @IsNotEmpty({ message: "O valor é obrigatório." })
-  @IsNumber({}, { message: "O valor deve ser um número." })
-  @Min(0.01, { message: "O valor deve ser maior que 0." })
+  @IsNotEmpty({ message: "Value is required." })
+  @IsNumber({}, { message: "Value must be a number." })
+  @Min(0.01, { message: "Value must be greater than 0." })
   value: number;
 
-  @IsNotEmpty({ message: "A data de emissão é obrigatória." })
-  @IsDateString({}, { message: "A data de emissão deve ser uma data válida." })
+  @IsNotEmpty({ message: "Emission date is required." })
+  @IsDateString({}, { message: "Emission date must be a valid date." })
   emissionDate: string;
 
-  @IsNotEmpty({ message: "O assignor é obrigatório." })
-  @IsUUID("4", { message: "O assignor deve ser um UUID válido." })
+  @IsNotEmpty({ message: "Assignor is required." })
+  @IsUUID("4", { message: "Assignor must be a valid UUID." })
   assignor: string;
 }
