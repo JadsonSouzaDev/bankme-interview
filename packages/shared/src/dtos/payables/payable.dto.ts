@@ -3,6 +3,7 @@ type PayableDtoConstructor = {
   assignorId: string;
   value: number;
   emissionDate: Date;
+  batchId?: string;
 };
 
 export class PayableDto {
@@ -10,11 +11,13 @@ export class PayableDto {
   assignorId: string;
   value: number;
   emissionDate: Date;
+  batchId?: string;
 
   constructor(props: PayableDtoConstructor) {
     this.id = props.id;
     this.assignorId = props.assignorId;
     this.value = props.value;
     this.emissionDate = props.emissionDate;
+    this.batchId = props.batchId;
   }
 }
