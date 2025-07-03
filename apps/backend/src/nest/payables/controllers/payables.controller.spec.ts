@@ -77,7 +77,10 @@ describe('PayablesController', () => {
   describe('createPayable', () => {
     it('should create payable successfully', async () => {
       mockCreatePayableCommand.execute.mockResolvedValue(mockPayableDto);
-      const result = await controller.createPayable(mockCreatePayableDto);
+      const result = await controller.createPayable({
+        ...mockCreatePayableDto,
+        emissionDate: mockCreatePayableDto.emissionDate.toISOString(),
+      });
       expect(result).toEqual(mockPayableDto);
       expect(mockCreatePayableCommand.execute).toHaveBeenCalledWith(
         mockCreatePayableDto,
@@ -87,7 +90,10 @@ describe('PayablesController', () => {
       const error = new Error('Validation failed');
       mockCreatePayableCommand.execute.mockRejectedValue(error);
       await expect(
-        controller.createPayable(mockCreatePayableDto),
+        controller.createPayable({
+          ...mockCreatePayableDto,
+          emissionDate: mockCreatePayableDto.emissionDate.toISOString(),
+        }),
       ).rejects.toThrow(error);
     });
   });
@@ -131,10 +137,10 @@ describe('PayablesController', () => {
       const payableId = 'payable-123';
       const updatedPayableDto = { ...mockPayableDto, ...mockUpdatePayableDto };
       mockUpdatePayableCommand.execute.mockResolvedValue(updatedPayableDto);
-      const result = await controller.updatePayable(
-        payableId,
-        mockUpdatePayableDto,
-      );
+      const result = await controller.updatePayable(payableId, {
+        ...mockUpdatePayableDto,
+        emissionDate: mockUpdatePayableDto.emissionDate.toISOString(),
+      });
       expect(result).toEqual(updatedPayableDto);
       expect(mockUpdatePayableCommand.execute).toHaveBeenCalledWith({
         id: payableId,
@@ -146,7 +152,10 @@ describe('PayablesController', () => {
       const error = new Error('Update failed');
       mockUpdatePayableCommand.execute.mockRejectedValue(error);
       await expect(
-        controller.updatePayable(payableId, mockUpdatePayableDto),
+        controller.updatePayable(payableId, {
+          ...mockUpdatePayableDto,
+          emissionDate: mockUpdatePayableDto.emissionDate.toISOString(),
+        }),
       ).rejects.toThrow(error);
     });
   });

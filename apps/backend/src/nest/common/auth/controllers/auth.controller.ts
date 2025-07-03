@@ -10,6 +10,7 @@ import {
 import { SignupCommand } from '../../../../core/common/auth/application/commands/signup/signup.command';
 import { LOGIN_COMMAND, SIGNUP_COMMAND } from '../auth.providers';
 import { LoginCommand } from '../../../../core/common/auth/application/commands/login/login.command';
+import { Public } from '../decorators/public.decorator';
 
 @Controller('integrations/auth')
 export class AuthController {
@@ -21,12 +22,14 @@ export class AuthController {
     private readonly loginCommand: LoginCommand,
   ) {}
 
+  @Public()
   @Post()
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDto): Promise<TokenDto> {
     return this.loginCommand.execute(loginDto);
   }
 
+  @Public()
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
   async signup(@Body() signupDto: SignupDto): Promise<UserDto> {

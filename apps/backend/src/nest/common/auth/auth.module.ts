@@ -8,6 +8,8 @@ import {
   UserRepositoryProvider,
 } from './auth.providers';
 import { JwtModule } from '@nestjs/jwt';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -24,6 +26,10 @@ import { JwtModule } from '@nestjs/jwt';
     UserRepositoryProvider,
     SignupCommandProvider,
     LoginCommandProvider,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
   ],
 })
 export class AuthModule {}

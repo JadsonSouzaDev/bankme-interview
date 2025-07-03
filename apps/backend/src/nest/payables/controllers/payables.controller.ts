@@ -47,7 +47,10 @@ export class PayablesIntegrationController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async createPayable(@Body() dto: CreatePayableDto): Promise<PayableDto> {
-    return await this.createPayableCommand.execute(dto);
+    return await this.createPayableCommand.execute({
+      ...dto,
+      emissionDate: new Date(dto.emissionDate),
+    });
   }
 
   @Get()
@@ -71,7 +74,11 @@ export class PayablesIntegrationController {
     @Param('id') id: string,
     @Body() dto: UpdatePayableDto,
   ): Promise<PayableDto> {
-    return await this.updatePayableCommand.execute({ id, ...dto });
+    return await this.updatePayableCommand.execute({
+      id,
+      ...dto,
+      emissionDate: dto.emissionDate ? new Date(dto.emissionDate) : undefined,
+    });
   }
 
   @Delete(':id')
