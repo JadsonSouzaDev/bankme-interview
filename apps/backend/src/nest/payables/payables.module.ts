@@ -12,6 +12,9 @@ import {
   CreatePayablesBatchCommandProvider,
   PayableQueueProvider,
   PayableConsumerProvider,
+  BatchRepositoryProvider,
+  UpdateBatchProgressCommandProvider,
+  DeadLetterQueueProvider,
 } from './payables.providers';
 import { BullModule } from '@nestjs/bullmq';
 
@@ -20,18 +23,24 @@ import { BullModule } from '@nestjs/bullmq';
     BullModule.registerQueue({
       name: 'payables',
     }),
+    BullModule.registerQueue({
+      name: 'dead-letter',
+    }),
   ],
   controllers: [PayablesIntegrationController],
   providers: [
     PayableRepositoryProvider,
-    PayableQueueProvider,
     AssignorRepositoryProvider,
+    BatchRepositoryProvider,
+    PayableQueueProvider,
+    DeadLetterQueueProvider,
     ApplicationServiceProvider,
     CreatePayableCommandProvider,
     CreatePayablesBatchCommandProvider,
     GetPayableQueryProvider,
     GetAllPayablesQueryProvider,
     UpdatePayableCommandProvider,
+    UpdateBatchProgressCommandProvider,
     DeletePayableCommandProvider,
     PayableConsumerProvider,
   ],

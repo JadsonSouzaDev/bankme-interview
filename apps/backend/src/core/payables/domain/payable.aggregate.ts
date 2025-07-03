@@ -10,6 +10,7 @@ type PayableConstructor = {
   value: number;
   emissionDate: Date;
   assignorId: string;
+  batchId?: string;
 } & BaseAggregateProps;
 
 export class Payable extends BaseAggregate<PayableDto> {
@@ -17,6 +18,7 @@ export class Payable extends BaseAggregate<PayableDto> {
   public value: number;
   public emissionDate: Date;
   public assignorId: string;
+  public batchId?: string;
 
   constructor(props: PayableConstructor) {
     super(props);
@@ -24,6 +26,7 @@ export class Payable extends BaseAggregate<PayableDto> {
     this.value = props.value;
     this.emissionDate = props.emissionDate;
     this.assignorId = props.assignorId;
+    this.batchId = props.batchId;
   }
 
   public static create(props: Omit<PayableConstructor, 'id'>): Payable {
@@ -38,6 +41,7 @@ export class Payable extends BaseAggregate<PayableDto> {
         value: payable.value,
         emissionDate: payable.emissionDate,
         assignorId: payable.assignorId,
+        batchId: payable.batchId,
       }),
     );
 
@@ -100,6 +104,7 @@ export class Payable extends BaseAggregate<PayableDto> {
       assignorId: this.assignorId,
       value: this.value,
       emissionDate: this.emissionDate,
+      batchId: this.batchId,
     } as PayableDto;
   }
 }

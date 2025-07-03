@@ -10,6 +10,7 @@ export interface CreatePayableCommandInput {
   value: number;
   emissionDate: Date;
   assignor: string;
+  batchId?: string;
 }
 
 export class CreatePayableCommand
@@ -32,6 +33,7 @@ export class CreatePayableCommand
         value: input.value,
         emissionDate: new Date(input.emissionDate),
         assignorId: assignor.id,
+        batchId: input.batchId,
       });
 
       const savedPayable = await this.payableRepository.save(payable);

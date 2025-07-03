@@ -1,22 +1,22 @@
 import { DomainEvent } from '../../../common/domain/domain-event';
 
-export class PayableCreatedEvent implements DomainEvent {
-  public readonly type = 'PayableCreated';
+export class PayableErrorEvent implements DomainEvent {
+  public readonly type = 'PayableError';
   public readonly occurredOn: Date;
   public readonly payload: {
-    payableId: string;
     value: number;
     emissionDate: Date;
     assignorId: string;
-    batchId?: string;
+    batchId: string;
+    errorMessage: string;
   };
 
   constructor(payload: {
-    payableId: string;
     value: number;
     emissionDate: Date;
     assignorId: string;
-    batchId?: string;
+    batchId: string;
+    errorMessage: string;
   }) {
     this.occurredOn = new Date();
     this.payload = payload;

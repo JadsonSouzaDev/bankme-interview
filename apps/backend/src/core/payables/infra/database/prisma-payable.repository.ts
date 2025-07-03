@@ -15,6 +15,7 @@ function toDomain(payable: PrismaPayable): Payable {
     value: payable.value,
     emissionDate: payable.emissionDate,
     assignorId: payable.assignorId,
+    batchId: payable.batchId || undefined,
     isActive: true,
     createdAt: new Date(payable.createdAt),
     updatedAt: new Date(payable.updatedAt),
@@ -39,6 +40,7 @@ export class PrismaPayableRepository
         value: payable.value,
         emissionDate: payable.emissionDate,
         assignorId: payable.assignorId,
+        batchId: payable.batchId,
         isActive: payable.isActive,
       },
       create: {
@@ -46,6 +48,7 @@ export class PrismaPayableRepository
         value: payable.value,
         emissionDate: payable.emissionDate,
         assignorId: payable.assignorId,
+        batchId: payable.batchId,
         isActive: payable.isActive,
       },
     });

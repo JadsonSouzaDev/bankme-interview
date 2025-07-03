@@ -29,13 +29,27 @@ model Assignor {
   payables  Payable[]
 }
 
+model Batch {
+  id          String    @id @default(uuid())
+  status      String    @default("PENDING") // PENDING, PROCESSING, COMPLETED, FAILED
+  totalItems  Int       @default(0)
+  successCount Int      @default(0)
+  failedCount Int       @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  payables    Payable[]
+}
+
 model Payable {
   id           String   @id @default(uuid())
   value        Float
   emissionDate DateTime
   assignorId   String
+  batchId      String?
   isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   assignor     Assignor @relation(fields: [assignorId], references: [id])
+  batch        Batch?   @relation(fields: [batchId], references: [id])
 }
