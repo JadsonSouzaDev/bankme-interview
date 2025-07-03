@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@bankme/shared": "*",
+    "@nestjs/bullmq": "^11.0.2",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^11.0.0",
@@ -28,6 +29,7 @@
     "@prisma/client": "^6.11.0",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^6.0.0",
+    "bullmq": "^5.56.1",
     "prisma": "^6.11.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"

@@ -11,12 +11,18 @@ import { EventBusImpl } from '../../core/common/application/events/event-bus.imp
 import { PayableRepository } from '../../core/payables/domain/payable.repository';
 import { AssignorRepository } from '../../core/assignors/domain/assignor.repository';
 import { ApplicationService } from '../../core/common/application/application-service.interface';
+import { CreatePayablesBatchCommand } from 'src/core/payables/application/commands/create-payables-batch/create-payables-batch.command';
+import { Queue } from 'bullmq';
+import { PayableConsumer } from './messaging/payable.consumer';
 
 // Tokens
 export const APPLICATION_SERVICE = 'APPLICATION_SERVICE';
+export const PAYABLE_QUEUE = 'PAYABLE_QUEUE';
 export const PAYABLE_REPOSITORY = 'PAYABLE_REPOSITORY';
+export const PAYABLE_CONSUMER = 'PAYABLE_CONSUMER';
 export const ASSIGNOR_REPOSITORY = 'ASSIGNOR_REPOSITORY';
 export const CREATE_PAYABLE_COMMAND = 'CREATE_PAYABLE_COMMAND';
+export const CREATE_PAYABLES_BATCH_COMMAND = 'CREATE_PAYABLES_BATCH_COMMAND';
 export const UPDATE_PAYABLE_COMMAND = 'UPDATE_PAYABLE_COMMAND';
 export const DELETE_PAYABLE_COMMAND = 'DELETE_PAYABLE_COMMAND';
 export const GET_PAYABLE_QUERY = 'GET_PAYABLE_QUERY';
@@ -39,6 +45,13 @@ export const PayableRepositoryProvider: Provider = {
   },
 };
 
+export const PayableQueueProvider: Provider<Queue> = {
+  provide: PAYABLE_QUEUE,
+  useFactory: () => {
+    return new Queue('payables');
+  },
+};
+
 export const AssignorRepositoryProvider: Provider = {
   provide: ASSIGNOR_REPOSITORY,
   useFactory: () => {
@@ -47,6 +60,14 @@ export const AssignorRepositoryProvider: Provider = {
     repository.setEventPublisher(eventBus);
     return repository;
   },
+};
+
+export const PayableConsumerProvider: Provider<PayableConsumer> = {
+  provide: PAYABLE_CONSUMER,
+  useFactory: (createPayableCommand: CreatePayableCommand) => {
+    return new PayableConsumer(createPayableCommand);
+  },
+  inject: [CREATE_PAYABLE_COMMAND],
 };
 
 // Command Providers
@@ -64,6 +85,14 @@ export const CreatePayableCommandProvider: Provider = {
       applicationService,
     );
   },
+};
+
+export const CreatePayablesBatchCommandProvider: Provider = {
+  provide: CREATE_PAYABLES_BATCH_COMMAND,
+  useFactory: (applicationService: ApplicationService, payableQueue: Queue) => {
+    return new CreatePayablesBatchCommand(applicationService, payableQueue);
+  },
+  inject: [APPLICATION_SERVICE, PAYABLE_QUEUE],
 };
 
 export const UpdatePayableCommandProvider: Provider = {
