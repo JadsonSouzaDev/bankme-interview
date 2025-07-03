@@ -12,4 +12,4 @@ export interface EventPublisher {
 
 export interface RepositoryWithEvents<T> extends BaseRepository<T> {
   setEventPublisher(publisher: EventPublisher): void;
-} 
+}

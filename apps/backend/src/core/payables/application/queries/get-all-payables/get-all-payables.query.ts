@@ -3,7 +3,6 @@ import { ApplicationService } from '../../../../common/application/application-s
 import { BaseQuery } from '../../../../../core/common/application/queries/base-query.interface';
 import { PayableDto } from '@bankme/shared';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface GetAllPayablesQueryInput {}
 
 export interface GetAllPayablesQueryOutput {

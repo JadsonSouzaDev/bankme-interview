@@ -23,4 +23,4 @@ export class AssignorUpdatedEvent implements DomainEvent {
     this.occurredOn = new Date();
     this.payload = payload;
   }
-} 
+}

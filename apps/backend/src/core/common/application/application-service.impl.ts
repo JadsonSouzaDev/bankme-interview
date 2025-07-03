@@ -15,4 +15,4 @@ export class ApplicationServiceImpl implements ApplicationService {
       throw error;
     }
   }
-} 
+}

@@ -39,7 +39,9 @@ describe('GetAllPayablesQuery', () => {
   describe('execute', () => {
     it('should return all payables', async () => {
       mockPayableRepository.findAll.mockResolvedValue([payable1, payable2]);
-      mockApplicationService.execute.mockImplementation(async (fn) => await fn());
+      mockApplicationService.execute.mockImplementation(
+        async (fn) => await fn(),
+      );
       const result = await query.execute();
       expect(result).toEqual({
         payables: [payable1.toDto(), payable2.toDto()],
@@ -49,7 +51,9 @@ describe('GetAllPayablesQuery', () => {
 
     it('should return empty array if no payables', async () => {
       mockPayableRepository.findAll.mockResolvedValue([]);
-      mockApplicationService.execute.mockImplementation(async (fn) => await fn());
+      mockApplicationService.execute.mockImplementation(
+        async (fn) => await fn(),
+      );
       const result = await query.execute();
       expect(result).toEqual({ payables: [], total: 0 });
     });
@@ -60,4 +64,4 @@ describe('GetAllPayablesQuery', () => {
       await expect(query.execute()).rejects.toThrow(error);
     });
   });
-}); 
+});

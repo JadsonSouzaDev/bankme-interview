@@ -18,4 +18,4 @@ export class EventBusImpl implements EventBus {
       await this.publish(event);
     }
   }
-} 
+}

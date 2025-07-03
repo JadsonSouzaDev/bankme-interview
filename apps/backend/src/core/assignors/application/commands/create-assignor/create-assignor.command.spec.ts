@@ -46,7 +46,9 @@ describe('CreateAssignorCommand', () => {
       mockAssignorRepository.findByEmail.mockResolvedValue(null);
       mockAssignorRepository.findByDocument.mockResolvedValue(null);
       mockAssignorRepository.save.mockResolvedValue(mockAssignor);
-      mockApplicationService.execute.mockImplementation(async (fn) => await fn());
+      mockApplicationService.execute.mockImplementation(
+        async (fn) => await fn(),
+      );
 
       // Act
       const result = await command.execute(validInput);
@@ -69,7 +71,9 @@ describe('CreateAssignorCommand', () => {
       // Arrange
       const existingAssignor = Assignor.create(validInput);
       mockAssignorRepository.findByEmail.mockResolvedValue(existingAssignor);
-      mockApplicationService.execute.mockImplementation(async (fn) => await fn());
+      mockApplicationService.execute.mockImplementation(
+        async (fn) => await fn(),
+      );
 
       // Act & Assert
       await expect(command.execute(validInput)).rejects.toThrow(
@@ -91,7 +95,9 @@ describe('CreateAssignorCommand', () => {
       const existingAssignor = Assignor.create(validInput);
       mockAssignorRepository.findByEmail.mockResolvedValue(null);
       mockAssignorRepository.findByDocument.mockResolvedValue(existingAssignor);
-      mockApplicationService.execute.mockImplementation(async (fn) => await fn());
+      mockApplicationService.execute.mockImplementation(
+        async (fn) => await fn(),
+      );
 
       // Act & Assert
       await expect(command.execute(validInput)).rejects.toThrow(
@@ -114,7 +120,9 @@ describe('CreateAssignorCommand', () => {
       // Arrange
       const existingAssignor = Assignor.create(validInput);
       mockAssignorRepository.findByEmail.mockResolvedValue(existingAssignor);
-      mockApplicationService.execute.mockImplementation(async (fn) => await fn());
+      mockApplicationService.execute.mockImplementation(
+        async (fn) => await fn(),
+      );
 
       // Act & Assert
       await expect(command.execute(validInput)).rejects.toThrow(
@@ -146,7 +154,9 @@ describe('CreateAssignorCommand', () => {
       mockAssignorRepository.findByEmail.mockResolvedValue(null);
       mockAssignorRepository.findByDocument.mockResolvedValue(null);
       mockAssignorRepository.save.mockResolvedValue(mockAssignor);
-      mockApplicationService.execute.mockImplementation(async (fn) => await fn());
+      mockApplicationService.execute.mockImplementation(
+        async (fn) => await fn(),
+      );
 
       // Act
       await command.execute(inputWithWhitespace);
@@ -169,4 +179,4 @@ describe('CreateAssignorCommand', () => {
       await expect(command.execute(validInput)).rejects.toThrow(error);
     });
   });
-}); 
+});

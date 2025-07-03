@@ -49,4 +49,4 @@ export abstract class BaseRepositoryImpl<T> implements RepositoryWithEvents<T> {
       this.clearDomainEvents(aggregate);
     }
   }
-} 
+}

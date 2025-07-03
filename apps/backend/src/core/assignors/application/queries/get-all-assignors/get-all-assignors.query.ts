@@ -3,7 +3,6 @@ import { ApplicationService } from '../../../../common/application/application-s
 import { BaseQuery } from '../../../../../core/common/application/queries/base-query.interface';
 import { AssignorDto } from '@bankme/shared';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface GetAllAssignorsQueryInput {}
 
 export interface GetAllAssignorsQueryOutput {
@@ -24,9 +23,7 @@ export class GetAllAssignorsQuery
       const assignors = await this.assignorRepository.findAll();
 
       return {
-        assignors: assignors.map((assignor) =>
-          assignor.toDto(),
-        ) as AssignorDto[],
+        assignors: assignors.map((assignor) => assignor.toDto()),
         total: assignors.length,
       };
     });
