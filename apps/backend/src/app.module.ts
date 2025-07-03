@@ -9,8 +9,7 @@ import { BullModule } from '@nestjs/bullmq';
   imports: [
     BullModule.forRoot({
       connection: {
-        host: '127.0.0.1',
-        port: 6379,
+        url: process.env.REDIS_URL || 'redis://localhost:6379',
       },
     }),
     PayablesModule,
