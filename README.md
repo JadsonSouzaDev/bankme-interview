@@ -85,6 +85,65 @@ npm run -w apps/frontend lint
 npm run clean
 ```
 
+## 🐳 Docker Compose
+
+The project includes Docker Compose configuration to facilitate development and deployment.
+
+### Prerequisites
+
+- Docker
+- Docker Compose
+
+### Running with Docker Compose
+
+#### Production
+
+```bash
+# Build and run all services
+docker-compose up -d
+
+# Build only (without running)
+docker-compose build
+
+# Stop all services
+docker-compose down
+
+# View logs
+docker-compose logs -f backend
+```
+
+### Available Services
+
+- **Backend**: NestJS API on port `3001`
+- **Redis**: Cache and messaging on port `6379`
+- **Frontend**: NextJS interface on port `3000`
+
+### Environment Variables
+
+The following variables are automatically configured:
+
+- `DATABASE_URL`: SQLite database file
+- `REDIS_URL`: Redis connection string
+- `JWT_SECRET`: Secret for JWT tokens
+- `NODE_ENV`: Environment (production/development)
+
+### Volumes
+
+- `./data`: SQLite database data
+- `redis-data`: Redis data (persistent)
+
+### Health Checks
+
+Services include automatic health checks:
+
+```bash
+# Check service status
+docker-compose ps
+
+# View health check logs
+docker-compose logs backend | grep health
+```
+
 ## Turbo Repo Benefits
 
 1. **Smart Caching**: Turbo caches builds and tests for faster execution

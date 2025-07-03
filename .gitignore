@@ -118,3 +118,6 @@ docker-compose.override.yml
 
 # Local development
 *.log 
+
+# Data
+/data
