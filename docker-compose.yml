@@ -33,7 +33,7 @@ services:
       - NODE_ENV=production
       - DATABASE_URL=file:/app/data/database.sqlite
       - REDIS_URL=redis://redis:6379
-      - JWT_SECRET=your-super-secret-jwt-key-change-in-production
+      - JWT_SECRET=b4nkme-jwt-secret
       - ALLOWED_ORIGINS=http://frontend:3000,http://localhost:3000
     volumes:
       - ./data:/app/data
