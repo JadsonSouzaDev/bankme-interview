@@ -29,6 +29,7 @@ export class PrismaAssignorRepository
   async findAll(): Promise<Assignor[]> {
     const list = await prisma.assignor.findMany({
       where: { isActive: true },
+      orderBy: { createdAt: 'desc' },
     });
     return list.map(toDomain);
   }
