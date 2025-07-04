@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { Button, Input, Label, Card } from "@/components/ui";
-import Link from "next/link";
+import { Card } from "@/components/ui";
+import LoginForm from "./_components/login-form";
 
 export default function Login() {
   return (
@@ -10,46 +10,7 @@ export default function Login() {
           <Image src="/logo-full.png" alt="Bankme" width={200} height={44} />
         </div>
         <Card>
-        <form className="w-full">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="login">Login</Label>
-              <Input
-                id="login"
-                name="login"
-                type="text"
-                autoComplete="login"
-                required
-                placeholder="Enter your login"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                placeholder="Enter your password"
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col justify-center space-y-4 mt-8">
-            <Button className="w-full" variant="default">
-              Login
-            </Button>
-            <div className="flex justify-center">
-              <p className="text-sm text-blue-500/80">
-                Don&apos;t have an account?{" "}
-                <Link href="/signup" className="text-blue-500 font-bold">
-                  Register
-                </Link>
-              </p>
-            </div>
-          </div>
-        </form>
+          <LoginForm />
         </Card>
       </div>
     </div>
