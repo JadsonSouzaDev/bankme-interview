@@ -8,7 +8,7 @@ export class PayableService {
   }
 
   async update(id: string, data: UpdatePayableDto): Promise<PayableDto> {
-    const response = await api.put<PayableDto>(`/payable/${id}`, data);
+    const response = await api.patch<PayableDto>(`/payable/${id}`, data);
     return response.data;
   }
 

@@ -8,7 +8,7 @@ export class AssignorsService {
   }
 
   async update(id: string, data: UpdateAssignorDto): Promise<AssignorDto> {
-    const response = await api.put<AssignorDto>(`/assignor/${id}`, data);
+    const response = await api.patch<AssignorDto>(`/assignor/${id}`, data);
     return response.data;
   }
 
