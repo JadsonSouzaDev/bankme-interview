@@ -2,7 +2,7 @@ import { TokenDto } from '@bankme/shared';
 import { BaseCommand } from 'src/core/common/application/commands/base-command.interface';
 import { UserRepository } from '../../../domain/user.repository';
 import { ApplicationService } from 'src/core/common/application/application-service.interface';
-import { NotFoundException } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../../../infra/encrypt/auth.service';
 
 export interface LoginCommandInput {
@@ -21,7 +21,7 @@ export class LoginCommand implements BaseCommand<LoginCommandInput, TokenDto> {
     return this.applicationService.execute(async () => {
       const user = await this.userRepository.findByLogin(dto.login);
       if (!user) {
-        throw new NotFoundException('User not found');
+        throw new UnauthorizedException('Login and/or password are incorrect');
       }
 
       return await this.authService.signIn(user, dto.password);
