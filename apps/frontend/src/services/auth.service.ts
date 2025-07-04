@@ -26,6 +26,7 @@ export class AuthService {
   logout(): void {
     if (typeof window !== "undefined") {
       localStorage.removeItem("token");
+      document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
   }
 
@@ -54,6 +55,20 @@ export class AuthService {
   setToken(token: string): void {
     if (typeof window !== "undefined") {
       localStorage.setItem("token", token);
+
+      try {
+        const decodedToken = jwtDecode<JwtPayload>(token);
+        
+        if (decodedToken.exp) {
+          const currentTime = Math.floor(Date.now() / 1000);
+          const timeUntilExpiry = decodedToken.exp - currentTime;
+          document.cookie = `token=${token}; path=/; max-age=${timeUntilExpiry}; SameSite=Strict`;
+        } else {
+          document.cookie = `token=${token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
+        }
+      } catch {
+        document.cookie = `token=${token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
+      }
     }
   }
 
