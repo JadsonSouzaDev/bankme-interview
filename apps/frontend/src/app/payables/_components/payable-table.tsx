@@ -11,6 +11,7 @@ import { PayableDto } from "@bankme/shared";
 import { formatCurrency } from "@/lib/currency";
 import Link from "next/link";
 import EditPayableModal from "./edit-payable-modal";
+import DeletePayableModal from "./delete-payable-modal";
 
 type PayableTableProps = {
   payables: PayableDto[];
@@ -50,6 +51,7 @@ const PayableTable = ({
             <TableCell className="flex gap-2 justify-end">
               <Link href={`/payables/${payable.id}`} className="text-sm text-blue-500 hover:underline font-bold">View</Link>
               <EditPayableModal payable={payable} />
+              <DeletePayableModal payable={payable} />
             </TableCell>
           </TableRow>
         ))}
