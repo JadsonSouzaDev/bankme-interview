@@ -45,7 +45,7 @@ const createAssignorSchema = z.object({
 
 type CreateAssignorFormData = z.infer<typeof createAssignorSchema>;
 
-const CreateModal = () => {
+const CreateAssignorModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   
@@ -175,4 +175,4 @@ const CreateModal = () => {
   );
 };
 
-export default CreateModal;
+export default CreateAssignorModal;

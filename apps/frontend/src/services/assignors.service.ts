@@ -15,6 +15,11 @@ export class AssignorsService {
   async delete(id: string): Promise<void> {
     await api.delete(`/assignor/${id}`);
   }
+
+  async getAll(): Promise<{ assignors: AssignorDto[]; total: number }> {
+    const response = await api.get<{ assignors: AssignorDto[]; total: number }>("/assignor");
+    return response.data;
+  }
 }
 
 export const assignorsService = new AssignorsService();

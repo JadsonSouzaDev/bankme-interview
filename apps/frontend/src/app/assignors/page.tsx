@@ -10,7 +10,7 @@ import {
 } from "@/components/ui";
 import { TabNavigation } from "@/components/navigation/tab-navigation";
 import { getAssignorsAction } from "../actions/assignors.actions";
-import CreateModal from "./_components/create-modal";
+import CreateAssignorModal from "./_components/create-assignor-modal";
 
 export default async function AssignorsPage() {
   const { assignors, total } = await getAssignorsAction();
@@ -22,7 +22,7 @@ export default async function AssignorsPage() {
       <Card>
         <div className="flex w-full justify-between">
           <h1 className="text-2xl font-bold">Assignors</h1>
-          <CreateModal />
+          <CreateAssignorModal />
         </div>
 
         <Table>
