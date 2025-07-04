@@ -11,12 +11,12 @@ import { EventBusImpl } from '../../core/common/application/events/event-bus.imp
 import { PayableRepository } from '../../core/payables/domain/payable.repository';
 import { AssignorRepository } from '../../core/assignors/domain/assignor.repository';
 import { ApplicationService } from '../../core/common/application/application-service.interface';
-import { CreatePayablesBatchCommand } from 'src/core/payables/application/commands/create-payables-batch/create-payables-batch.command';
+import { CreatePayablesBatchCommand } from '../../core/payables/application/commands/create-payables-batch/create-payables-batch.command';
 import { Queue } from 'bullmq';
 import { PayableConsumer } from './messaging/payable.consumer';
-import { BatchRepository } from 'src/core/payables/domain/batch.repository';
-import { PrismaBatchRepository } from 'src/core/payables/infra/database/prisma-batch.repository';
-import { UpdateBatchProgressCommand } from 'src/core/payables/application/commands/update-batch-progress/update-batch-progress.command';
+import { BatchRepository } from '../../core/payables/domain/batch.repository';
+import { PrismaBatchRepository } from '../../core/payables/infra/database/prisma-batch.repository';
+import { UpdateBatchProgressCommand } from '../../core/payables/application/commands/update-batch-progress/update-batch-progress.command';
 
 // Tokens
 export const APPLICATION_SERVICE = 'APPLICATION_SERVICE';

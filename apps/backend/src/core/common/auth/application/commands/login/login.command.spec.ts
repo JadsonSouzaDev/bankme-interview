@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common';
 import { LoginCommand } from './login.command';
 import { UserRepository } from '../../../domain/user.repository';
 import { ApplicationService } from '../../../../../common/application/application-service.interface';
@@ -77,18 +77,16 @@ describe('LoginCommand', () => {
     });
 
     it('should throw NotFoundException when user does not exist', async () => {
-      // Arrange
       mockUserRepository.findByLogin.mockResolvedValue(null);
       mockApplicationService.execute.mockImplementation(
         async (fn) => await fn(),
       );
 
-      // Act & Assert
       await expect(command.execute(validInput)).rejects.toThrow(
-        NotFoundException,
+        UnauthorizedException,
       );
       await expect(command.execute(validInput)).rejects.toThrow(
-        'User not found',
+        'Login and/or password are incorrect',
       );
 
       expect(mockUserRepository.findByLogin).toHaveBeenCalledWith(
@@ -98,7 +96,6 @@ describe('LoginCommand', () => {
     });
 
     it('should propagate auth service errors', async () => {
-      // Arrange
       const authError = new Error('Invalid password');
       mockUserRepository.findByLogin.mockResolvedValue(mockUser);
       mockAuthService.signIn.mockRejectedValue(authError);
@@ -106,7 +103,6 @@ describe('LoginCommand', () => {
         async (fn) => await fn(),
       );
 
-      // Act & Assert
       await expect(command.execute(validInput)).rejects.toThrow(authError);
 
       expect(mockUserRepository.findByLogin).toHaveBeenCalledWith(
@@ -119,16 +115,13 @@ describe('LoginCommand', () => {
     });
 
     it('should handle application service errors', async () => {
-      // Arrange
       const error = new Error('Database connection failed');
       mockApplicationService.execute.mockRejectedValue(error);
 
-      // Act & Assert
       await expect(command.execute(validInput)).rejects.toThrow(error);
     });
 
     it('should call findByLogin with correct login parameter', async () => {
-      // Arrange
       const customInput = {
         login: 'customuser',
         password: 'custompassword',
@@ -140,17 +133,14 @@ describe('LoginCommand', () => {
         async (fn) => await fn(),
       );
 
-      // Act
       await command.execute(customInput);
 
-      // Assert
       expect(mockUserRepository.findByLogin).toHaveBeenCalledWith(
         customInput.login,
       );
     });
 
     it('should pass user and password to auth service', async () => {
-      // Arrange
       const customUser = User.create({
         login: 'anotheruser',
         password: 'anotherhashedpassword',
@@ -162,10 +152,8 @@ describe('LoginCommand', () => {
         async (fn) => await fn(),
       );
 
-      // Act
       await command.execute(validInput);
 
-      // Assert
       expect(mockAuthService.signIn).toHaveBeenCalledWith(
         customUser,
         validInput.password,
@@ -173,7 +161,6 @@ describe('LoginCommand', () => {
     });
 
     it('should return the exact token from auth service', async () => {
-      // Arrange
       const customTokenDto: TokenDto = {
         accessToken: 'custom-jwt-token',
         expiresIn: 120,
@@ -185,10 +172,8 @@ describe('LoginCommand', () => {
         async (fn) => await fn(),
       );
 
-      // Act
       const result = await command.execute(validInput);
 
-      // Assert
       expect(result).toEqual(customTokenDto);
       expect(result.accessToken).toBe('custom-jwt-token');
       expect(result.expiresIn).toBe(120);

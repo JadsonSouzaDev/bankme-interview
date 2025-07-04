@@ -5,8 +5,10 @@ import { DeletePayableCommand } from '../../../core/payables/application/command
 import { UpdatePayableCommand } from '../../../core/payables/application/commands/update-payable/update-payable.command';
 import { GetPayableQuery } from '../../../core/payables/application/queries/get-payable/get-payable.query';
 import { GetAllPayablesQuery } from '../../../core/payables/application/queries/get-all-payables/get-all-payables.query';
+import { CreatePayablesBatchCommand } from '../../../core/payables/application/commands/create-payables-batch/create-payables-batch.command';
 import {
   CREATE_PAYABLE_COMMAND,
+  CREATE_PAYABLES_BATCH_COMMAND,
   DELETE_PAYABLE_COMMAND,
   UPDATE_PAYABLE_COMMAND,
   GET_PAYABLE_QUERY,
@@ -17,6 +19,7 @@ import { PayableDto } from '@bankme/shared';
 describe('PayablesController', () => {
   let controller: PayablesIntegrationController;
   let mockCreatePayableCommand: jest.Mocked<CreatePayableCommand>;
+  let mockCreatePayablesBatchCommand: jest.Mocked<CreatePayablesBatchCommand>;
   let mockDeletePayableCommand: jest.Mocked<DeletePayableCommand>;
   let mockUpdatePayableCommand: jest.Mocked<UpdatePayableCommand>;
   let mockGetPayableQuery: jest.Mocked<GetPayableQuery>;
@@ -45,6 +48,9 @@ describe('PayablesController', () => {
     mockCreatePayableCommand = {
       execute: jest.fn(),
     } as any;
+    mockCreatePayablesBatchCommand = {
+      execute: jest.fn(),
+    } as any;
     mockDeletePayableCommand = {
       execute: jest.fn(),
     } as any;
@@ -62,6 +68,10 @@ describe('PayablesController', () => {
       controllers: [PayablesIntegrationController],
       providers: [
         { provide: CREATE_PAYABLE_COMMAND, useValue: mockCreatePayableCommand },
+        {
+          provide: CREATE_PAYABLES_BATCH_COMMAND,
+          useValue: mockCreatePayablesBatchCommand,
+        },
         { provide: DELETE_PAYABLE_COMMAND, useValue: mockDeletePayableCommand },
         { provide: UPDATE_PAYABLE_COMMAND, useValue: mockUpdatePayableCommand },
         { provide: GET_PAYABLE_QUERY, useValue: mockGetPayableQuery },
