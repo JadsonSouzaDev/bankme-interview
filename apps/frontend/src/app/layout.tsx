@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner"
 import Footer from "@/components/molecules/footer";
+
 
 const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
@@ -28,6 +30,7 @@ export default function RootLayout({
           <main className="flex h-[50vh] mt-[25vh] relative items-center justify-center">
             {children}
           </main>
+          <Toaster position="top-right" />
         </>
       </body>
     </html>
