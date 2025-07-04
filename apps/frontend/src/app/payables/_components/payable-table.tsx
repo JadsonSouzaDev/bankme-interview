@@ -11,13 +11,15 @@ import { PayableDto } from "@bankme/shared";
 import { formatCurrency } from "@/lib/currency";
 import Link from "next/link";
 
+type PayableTableProps = {
+  payables: PayableDto[];
+  total: number;
+};
+
 const PayableTable = ({
   payables,
   total,
-}: {
-  payables: PayableDto[];
-  total: number;
-}) => {
+}: PayableTableProps) => {
   return (
     <Table>
       <TableCaption>

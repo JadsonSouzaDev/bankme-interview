@@ -27,7 +27,7 @@ export default function RootLayout({
       >
         <>
           <Footer />
-          <main className="flex h-[50vh] mt-[25vh] relative items-center justify-center">
+          <main className="flex h-[50vh] mt-[16vh] md:mt-[25vh] relative items-center justify-center">
             {children}
           </main>
           <Toaster position="top-right" />
