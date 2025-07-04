@@ -1,0 +1,16 @@
+# Copy this file to terraform.tfvars and fill in your values
+
+# Required variables
+project_id = "your-gcp-project-id"
+database_password = "your-secure-database-password"
+
+# Optional variables (with defaults)
+region = "us-central1"
+environment = "dev"
+cluster_name = "bankme-cluster"
+artifact_registry_name = "bankme-images"
+node_count = 2
+machine_type = "e2-standard-2"
+database_tier = "db-f1-micro"
+redis_tier = "BASIC"
+redis_memory_size_gb = 1 
