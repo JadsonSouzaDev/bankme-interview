@@ -75,14 +75,22 @@ export const BatchRepositoryProvider: Provider = {
 export const PayableQueueProvider: Provider<Queue> = {
   provide: PAYABLE_QUEUE,
   useFactory: () => {
-    return new Queue('payables');
+    return new Queue('payables', {
+      connection: {
+        url: process.env.REDIS_URL || 'redis://localhost:6379',
+      },
+    });
   },
 };
 
 export const DeadLetterQueueProvider: Provider<Queue> = {
   provide: DEAD_LETTER_QUEUE,
   useFactory: () => {
-    return new Queue('dead-letter');
+    return new Queue('dead-letter', {
+      connection: {
+        url: process.env.REDIS_URL || 'redis://localhost:6379',
+      },
+    });
   },
 };
 
