@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  CurrencyInput,
 } from "@/components/ui";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -47,6 +48,8 @@ const CreatePayableModal = () => {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<CreatePayableFormData>({
@@ -113,13 +116,11 @@ const CreatePayableModal = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <Label htmlFor="value">Value</Label>
-            <Input
+            <CurrencyInput
               id="value"
-              type="number"
-              step="0.01"
-              min="0.01"
-              {...register("value", { valueAsNumber: true })}
-              placeholder="Enter value (e.g., 100.50)"
+              value={watch("value")}
+              onChange={(value) => setValue("value", value)}
+              error={!!errors.value}
               className="mt-1"
             />
             {errors.value && (
