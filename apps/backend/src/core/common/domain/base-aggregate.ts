@@ -17,13 +17,11 @@ export abstract class BaseAggregate<T> {
     this._isActive = props.isActive || true;
   }
   private _domainEvents: DomainEvent[] = [];
-
-  // Getters para as propriedades de auditoria
+  
   public get isActive(): boolean {
     return this._isActive;
   }
 
-  // Métodos para gerenciar o estado ativo
   public deactivate(): void {
     this._isActive = false;
   }
@@ -32,7 +30,6 @@ export abstract class BaseAggregate<T> {
     this._isActive = true;
   }
 
-  // Métodos existentes para gerenciamento de eventos de domínio
   protected addDomainEvent(event: DomainEvent): void {
     this._domainEvents.push(event);
   }
@@ -46,8 +43,8 @@ export abstract class BaseAggregate<T> {
   }
 
   public markAsPersisted(): void {
-    // Aqui você pode adicionar lógica adicional se necessário
-    // Por exemplo, marcar que o agregado foi salvo no banco
+    // Here you can add additional logic if needed
+    // For example, mark that the aggregate was saved to the database
   }
 
   public abstract toDto(): T;

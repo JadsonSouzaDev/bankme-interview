@@ -26,22 +26,17 @@ export class DeletePayableCommand
     return this.applicationService.execute(async () => {
       const { id } = dto;
 
-      // Buscar o payable pelo ID
       const payable = await this.payableRepository.findById(id);
 
       if (!payable) {
         throw new NotFoundException('Payable not found');
       }
 
-      // Verificar se o payable já está inativo
       if (!payable.isActive) {
         throw new BadRequestException('Payable already deleted');
       }
 
-      // Desativar o payable (soft delete)
       payable.deactivate();
-
-      // Salvar as mudanças
       await this.payableRepository.save(payable);
 
       return {

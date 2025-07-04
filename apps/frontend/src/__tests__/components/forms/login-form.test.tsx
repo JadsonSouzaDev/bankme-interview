@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import LoginForm from '@/app/login/_components/login-form'
 
-// Mock do Next.js router
+// Mock of Next.js router
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
     push: jest.fn(),
@@ -10,14 +10,14 @@ jest.mock('next/navigation', () => ({
   }),
 }))
 
-// Mock do AuthService
+// Mock of AuthService
 jest.mock('@/services/auth.service', () => ({
   AuthService: jest.fn().mockImplementation(() => ({
     login: jest.fn(),
   })),
 }))
 
-// Mock do toast
+// Mock of toast
 jest.mock('sonner', () => ({
   toast: {
     success: jest.fn(),

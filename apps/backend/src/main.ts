@@ -25,7 +25,6 @@ async function bootstrap() {
     }),
   );
 
-  // Configuração do Swagger
   const config = new DocumentBuilder()
     .setTitle('BankMe API')
     .setDescription('API for managing assignors and payables')

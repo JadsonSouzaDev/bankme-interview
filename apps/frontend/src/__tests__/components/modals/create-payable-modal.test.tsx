@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-// Mock do @bankme/shared
+// Mock of @bankme/shared
 jest.mock('@bankme/shared', () => ({
   AssignorDto: {
     id: 'string',
@@ -12,14 +12,14 @@ jest.mock('@bankme/shared', () => ({
   },
 }))
 
-// Mock do next/navigation
+// Mock of next/navigation
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
     refresh: jest.fn(),
   }),
 }))
 
-// Mock dos serviços
+// Mock of services
 jest.mock('@/services/payable.service', () => ({
   payableService: {
     create: jest.fn().mockResolvedValue({}),
@@ -42,7 +42,7 @@ jest.mock('@/services/assignors.service', () => ({
   },
 }))
 
-// Mock do sonner
+// Mock of sonner
 jest.mock('sonner', () => ({
   toast: {
     success: jest.fn(),
@@ -50,7 +50,7 @@ jest.mock('sonner', () => ({
   },
 }))
 
-// Mock de todos os componentes UI
+// Mock of all UI components
 jest.mock('@/components/ui', () => ({
   Button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
   Input: ({ ...props }: any) => <input {...props} />,
@@ -82,7 +82,7 @@ jest.mock('@/components/ui', () => ({
   ),
 }))
 
-// Mock do react-number-format
+// Mock of react-number-format
 jest.mock('react-number-format', () => ({
   NumericFormat: ({ customInput: CustomInput, ...props }: any) => {
     const InputComponent = CustomInput || 'input'
@@ -94,7 +94,7 @@ describe('CreatePayableModal', () => {
   const user = userEvent.setup()
 
   it('should render the open modal button', async () => {
-    // Importação dinâmica para evitar problemas de cache
+    // Dynamic import to avoid cache issues
     const { default: CreatePayableModal } = await import('@/app/payables/_components/create-payable-modal')
     
     render(<CreatePayableModal />)
@@ -103,7 +103,7 @@ describe('CreatePayableModal', () => {
   })
 
   it('should open the modal when the button is clicked', async () => {
-    // Importação dinâmica para evitar problemas de cache
+    // Dynamic import to avoid cache issues
     const { default: CreatePayableModal } = await import('@/app/payables/_components/create-payable-modal')
     
     render(<CreatePayableModal />)

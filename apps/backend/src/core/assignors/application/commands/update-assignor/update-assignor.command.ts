@@ -24,14 +24,12 @@ export class UpdateAssignorCommand
     return this.applicationService.execute(async () => {
       const { id, ...updateData } = dto;
 
-      // Buscar o assignor pelo ID
       const assignor = await this.assignorRepository.findById(id);
 
       if (!assignor) {
         throw new NotFoundException('Assignor not found');
       }
 
-      // Verificar duplicatas apenas se os campos foram alterados
       if (updateData.email && updateData.email !== assignor.email) {
         const existingAssignorByEmail =
           await this.assignorRepository.findByEmail(updateData.email);
@@ -51,12 +49,8 @@ export class UpdateAssignorCommand
         }
       }
 
-      // Usar o método do agregado para atualizar
       assignor.updateMultipleFields(updateData);
-
-      // Salvar as mudanças
       const updatedAssignor = await this.assignorRepository.save(assignor);
-
       return updatedAssignor.toDto();
     });
   }

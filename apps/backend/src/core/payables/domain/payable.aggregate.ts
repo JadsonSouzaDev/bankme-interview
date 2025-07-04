@@ -62,7 +62,6 @@ export class Payable extends BaseAggregate<PayableDto> {
       updatedAt: new Date(),
     };
 
-    // Validar e atualizar valor
     if (updates.value !== undefined) {
       if (updates.value <= 0) {
         throw new Error('Valor deve ser maior que zero');
@@ -71,7 +70,6 @@ export class Payable extends BaseAggregate<PayableDto> {
       changes.value = this.value;
     }
 
-    // Validar e atualizar data de emissão
     if (updates.emissionDate !== undefined) {
       if (!updates.emissionDate || !(updates.emissionDate instanceof Date)) {
         throw new Error('Data de emissão inválida');
@@ -80,7 +78,6 @@ export class Payable extends BaseAggregate<PayableDto> {
       changes.emissionDate = this.emissionDate;
     }
 
-    // Validar e atualizar assignor
     if (updates.assignorId !== undefined) {
       if (!updates.assignorId || updates.assignorId.trim().length === 0) {
         throw new Error('ID do assignor é obrigatório');
@@ -89,9 +86,7 @@ export class Payable extends BaseAggregate<PayableDto> {
       changes.assignorId = this.assignorId;
     }
 
-    // Emitir apenas um evento com todas as mudanças
     if (Object.keys(changes).length > 2) {
-      // Mais que payableId e updatedAt
       this.addDomainEvent(
         new PayableUpdatedEvent(changes as PayableUpdatedEvent['payload']),
       );

@@ -12,10 +12,8 @@ export abstract class BaseRepositoryImpl<T> implements RepositoryWithEvents<T> {
   }
 
   async save(aggregate: T): Promise<T> {
-    // Salvar no banco de dados
     const savedAggregate = await this.saveToDatabase(aggregate);
 
-    // Publicar eventos de domínio
     await this.publishDomainEvents(aggregate);
 
     return savedAggregate;
@@ -38,7 +36,7 @@ export abstract class BaseRepositoryImpl<T> implements RepositoryWithEvents<T> {
   private async publishDomainEvents(aggregate: T): Promise<void> {
     if (!this.eventPublisher) {
       console.warn(
-        'EventPublisher não configurado. Eventos não serão publicados.',
+        'EventPublisher not configured. Events will not be published.',
       );
       return;
     }

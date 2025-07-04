@@ -27,22 +27,17 @@ export class DeleteAssignorCommand
     return this.applicationService.execute(async () => {
       const { id } = dto;
 
-      // Buscar o assignor pelo ID
       const assignor = await this.assignorRepository.findById(id);
 
       if (!assignor) {
         throw new NotFoundException('Assignor not found');
       }
 
-      // Verificar se o assignor já está inativo
       if (!assignor.isActive) {
         throw new BadRequestException('Assignor já foi deletado');
       }
 
-      // Desativar o assignor (soft delete)
       assignor.deactivate();
-
-      // Salvar as mudanças
       await this.assignorRepository.save(assignor);
 
       return {
