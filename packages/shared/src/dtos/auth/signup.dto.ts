@@ -1,6 +1,14 @@
 import { IsString, IsNotEmpty, Matches, MinLength, MaxLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class SignupDto {
+  @ApiProperty({
+    description: 'Username for signup',
+    example: 'user123',
+    minLength: 3,
+    maxLength: 20,
+    pattern: '^[a-zA-Z0-9]+$',
+  })
   @IsString()
   @IsNotEmpty()
   @MinLength(3, { message: 'Login must have at least 3 characters' })
@@ -10,6 +18,11 @@ export class SignupDto {
   })
   login: string;
 
+  @ApiProperty({
+    description: 'User password',
+    example: 'password123',
+    minLength: 6,
+  })
   @IsString()
   @IsNotEmpty()
   @MinLength(6, { message: 'Password must have at least 6 characters' })

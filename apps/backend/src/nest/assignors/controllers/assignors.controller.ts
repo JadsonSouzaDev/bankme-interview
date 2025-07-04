@@ -11,6 +11,14 @@ import {
   Patch,
 } from '@nestjs/common';
 import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiParam,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
+import {
   AssignorDto,
   CreateAssignorDto,
   UpdateAssignorDto,
@@ -28,6 +36,8 @@ import {
   GET_ALL_ASSIGNORS_QUERY,
 } from '../assignors.providers';
 
+@ApiTags('assignors')
+@ApiBearerAuth('JWT-auth')
 @Controller('integrations/assignor')
 export class AssignorsIntegrationController {
   constructor(
@@ -49,24 +59,90 @@ export class AssignorsIntegrationController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({
+    summary: 'Create assignor',
+    description: 'Creates a new assignor',
+  })
+  @ApiBody({
+    type: CreateAssignorDto,
+    description: 'Data for creating the assignor',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Assignor created successfully',
+    type: AssignorDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid data',
+  })
   async createAssignor(@Body() dto: CreateAssignorDto): Promise<AssignorDto> {
     return await this.createAssignorCommand.execute(dto);
   }
 
   @Get()
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'List assignors',
+    description: 'Returns all assignors',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'List of assignors returned successfully',
+    type: [AssignorDto],
+  })
   async getAllAssignors() {
     return await this.getAllAssignorsQuery.execute();
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Get assignor by ID',
+    description: 'Returns a specific assignor by ID',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Assignor ID',
+    type: 'string',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Assignor found successfully',
+    type: AssignorDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Assignor not found',
+  })
   async getAssignor(@Param('id') id: string): Promise<AssignorDto> {
     return await this.getAssignorQuery.execute({ id });
   }
 
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Update assignor',
+    description: 'Updates the data of an existing assignor',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Assignor ID',
+    type: 'string',
+  })
+  @ApiBody({
+    type: UpdateAssignorDto,
+    description: 'Data for updating the assignor',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Assignor updated successfully',
+    type: AssignorDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Assignor not found',
+  })
   async updateAssignor(
     @Param('id') id: string,
     @Body() dto: UpdateAssignorDto,
@@ -76,6 +152,23 @@ export class AssignorsIntegrationController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({
+    summary: 'Delete assignor',
+    description: 'Removes an assignor by ID',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Assignor ID',
+    type: 'string',
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'Assignor deleted successfully',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Assignor not found',
+  })
   async deleteAssignor(@Param('id') id: string) {
     await this.deleteAssignorCommand.execute({ id });
   }
