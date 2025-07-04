@@ -11,8 +11,8 @@ const nunitoSans = Nunito_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Bankme | Oferte crédito do jeito certo com o seu Mini Banco",
-  description: "Abra sua empresa de crédito de forma simples e barata com a Bankme. Oferte antecipação de recebíveis e empréstimos e rentabilize com o Mini Banco. ",
+  title: "Bankme | Offer credit the right way with your Mini Bank",
+  description: "Open your credit company simply and affordably with Bankme. Offer receivables anticipation and loans and profit with the Mini Bank.",
 };
 
 export default function RootLayout({
@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="en">
       <body
         className={`antialiased ${nunitoSans.className}`}
       >

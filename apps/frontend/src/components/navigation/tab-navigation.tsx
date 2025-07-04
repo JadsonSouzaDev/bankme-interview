@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard" },
-  { name: "Cedentes", href: "/assignors" },
-  { name: "Recebíveis", href: "/payables" },
+  { name: "Assignors", href: "/assignors" },
+  { name: "Payables", href: "/payables" },
 ];
 
 export function TabNavigation() {
