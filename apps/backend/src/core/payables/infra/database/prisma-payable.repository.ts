@@ -29,7 +29,7 @@ export class PrismaPayableRepository
   async findAll(): Promise<Payable[]> {
     const list = await prisma.payable.findMany({
       where: { isActive: true },
-      orderBy: { emissionDate: 'desc' },
+      orderBy: { emissionDate: 'asc' },
     });
     return list.map(toDomain);
   }
