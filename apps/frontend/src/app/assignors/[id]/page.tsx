@@ -4,13 +4,14 @@ import { Card } from "@/components/ui";
 import Link from "next/link";
 
 type AssignorDetailsPageProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export default async function AssignorDetailsPage({
   params,
 }: AssignorDetailsPageProps) {
-  const assignor = await getAssignorByIdAction(params.id);
+  const { id } = await params;
+  const assignor = await getAssignorByIdAction(id);
 
   return (
     <div className="flex flex-col w-full max-w-3xl">

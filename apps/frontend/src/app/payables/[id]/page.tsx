@@ -6,13 +6,14 @@ import { formatCurrency } from "@/lib/currency";
 import Link from "next/link";
 
 type PayableDetailsPageProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export default async function PayableDetailsPage({
   params,
 }: PayableDetailsPageProps) {
-  const payable = await getPayableByIdAction(params.id);
+  const { id } = await params;
+  const payable = await getPayableByIdAction(id);
   const assignor = await getAssignorByIdAction(payable.assignorId);
 
   return (

@@ -4,7 +4,7 @@ import { AssignorDto } from "@bankme/shared";
 import { getToken } from "@/lib/auth";
 
 const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/integrations";
+  process.env.API_URL || "http://localhost:3001/integrations";
 
 export async function getAssignorsAction(): Promise<{
   assignors: AssignorDto[];
