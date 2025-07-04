@@ -15,7 +15,7 @@ const Card = ({ children, className }: CardProps) => {
 
 const PageCard = ({ children }: CardProps) => {
   return (
-    <Card className="min-h-[450px] max-h-[450px] lg:min-h-[600px] lg:max-h-[600px] overflow-y-hidden overflow-x-hidden">
+    <Card className="min-h-[450px] max-h-[450px] lg:min-h-[600px] lg:max-h-[600px] max-w-3xl overflow-y-hidden overflow-x-hidden">
       {children}
     </Card>
   );
