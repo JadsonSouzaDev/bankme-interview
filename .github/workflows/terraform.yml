@@ -1,0 +1,124 @@
+name: Terraform Infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Terraform action to perform'
+        required: true
+        default: 'plan'
+        type: choice
+        options:
+        - plan
+        - apply
+        - destroy
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - dev
+        - staging
+        - prod
+
+env:
+  TF_VERSION: "1.5.0"
+  TF_WORKING_DIR: "./terraform"
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Setup Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+
+    - name: Terraform Init
+      run: |
+        cd ${{ env.TF_WORKING_DIR }}
+        terraform init
+
+    - name: Terraform Format Check
+      run: |
+        cd ${{ env.TF_WORKING_DIR }}
+        terraform fmt -check
+
+    - name: Terraform Validate
+      run: |
+        cd ${{ env.TF_WORKING_DIR }}
+        terraform validate
+
+    - name: Terraform Plan
+      if: github.event.inputs.action == 'plan'
+      run: |
+        cd ${{ env.TF_WORKING_DIR }}
+        terraform plan \
+          -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+          -var="region=${{ secrets.GCP_REGION }}" \
+          -var="environment=${{ github.event.inputs.environment }}" \
+          -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
+          -var="redis_tier=${{ vars.REDIS_TIER || 'BASIC' }}" \
+          -var="redis_memory_size_gb=${{ vars.REDIS_MEMORY_SIZE_GB || '1' }}" \
+          -out=tfplan
+      continue-on-error: true
+
+    - name: Upload Terraform Plan
+      if: github.event.inputs.action == 'plan'
+      uses: actions/upload-artifact@v4
+      with:
+        name: terraform-plan
+        path: ${{ env.TF_WORKING_DIR }}/tfplan
+
+    - name: Terraform Apply
+      if: github.event.inputs.action == 'apply'
+      run: |
+        cd ${{ env.TF_WORKING_DIR }}
+        terraform apply \
+          -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+          -var="region=${{ secrets.GCP_REGION }}" \
+          -var="environment=${{ github.event.inputs.environment }}" \
+          -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
+          -var="redis_tier=${{ vars.REDIS_TIER || 'BASIC' }}" \
+          -var="redis_memory_size_gb=${{ vars.REDIS_MEMORY_SIZE_GB || '1' }}" \
+          -auto-approve
+
+    - name: Terraform Destroy
+      if: github.event.inputs.action == 'destroy'
+      run: |
+        cd ${{ env.TF_WORKING_DIR }}
+        terraform destroy \
+          -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+          -var="region=${{ secrets.GCP_REGION }}" \
+          -var="environment=${{ github.event.inputs.environment }}" \
+          -var="database_password=${{ secrets.DATABASE_PASSWORD }}" \
+          -var="redis_tier=${{ vars.REDIS_TIER || 'BASIC' }}" \
+          -var="redis_memory_size_gb=${{ vars.REDIS_MEMORY_SIZE_GB || '1' }}" \
+          -auto-approve
+
+    - name: Get Terraform Outputs
+      if: github.event.inputs.action == 'apply'
+      run: |
+        cd ${{ env.TF_WORKING_DIR }}
+        terraform output -json > outputs.json
+      continue-on-error: true
+
+    - name: Upload Terraform Outputs
+      if: github.event.inputs.action == 'apply'
+      uses: actions/upload-artifact@v4
+      with:
+        name: terraform-outputs
+        path: ${{ env.TF_WORKING_DIR }}/outputs.json 
